@@ -1,0 +1,25 @@
+html, head, body {
+    margin: 0;
+    background-color: #101010;
+
+    display: flex;
+
+    font-family: monospace;
+}
+
+canvas {
+    display: block;  /* prevents scrollbar */
+    image-rendering: pixelated;
+}
+
+#shadercanvas {
+    background-color: #78b53c;
+}
+
+div {
+    margin-left: 10px;
+    color: white;
+}
+#errorbox {
+    color: red;
+}

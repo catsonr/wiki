@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    font-family: monospace;
+
+    .render-multiple-spaces {
+        white-space: pre-wrap;
+    }
+
+    overflow-x: hidden;
+}
+
+#lorenzcanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+}
+
+#cubecanvas {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -2;
+}
+
+.bottomcats {
+    position: fixed;
+    bottom: 0;
+    left: 0%;
+    width: 100%;
+    height: auto;
+    z-index: 100;
+    gap: 10px;
+    white-space: nowrap;
+}
