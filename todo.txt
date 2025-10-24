@@ -1,1 +1,2 @@
-clean up codebase
+make imgtoascii work
+download all js loaded at runtime
