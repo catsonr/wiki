@@ -18,11 +18,17 @@ body {
     z-index: -100;
 }
 
-#cubecanvas {
+#cubecanvas-link {
     position: fixed;
     bottom: 0;
     right: 0;
-    z-index: -2;
+    z-index: 101;
+    display: block;
+}
+
+#cubecanvas {
+    z-index: -1;
+    pointer-events: none;
 }
 
 .bottomcats {

@@ -1,1 +1,1 @@
-make cube on homepage go to s3/
+clean up codebase
