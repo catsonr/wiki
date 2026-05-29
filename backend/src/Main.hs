@@ -42,10 +42,12 @@ main = do
 
     scotty 3000 $ do
         get "/" $
-            text "cwab is alive"
+            text "cwab is alive\n"
 
-        -- log a hit, return the running total
-        get "/api/hit" $ do
+        -- log a hit, return the running total.
+        -- the Allow-Origin header lets catson.wiki's js read this cross-origin.
+        get "/hit" $ do
+            setHeader "Access-Control-Allow-Origin" "*"
             now <- liftIO getCurrentTime
             total <- liftIO $ runSqlPool
                 (do _ <- insert (Hit now Nothing Nothing)
