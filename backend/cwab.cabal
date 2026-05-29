@@ -1,0 +1,21 @@
+cabal-version:      3.0
+name:               cwab
+version:            0.1.0.0
+synopsis:           catson.wiki awesome backend
+homepage:           catson.wiki
+license:            MIT
+author:             catsonr
+maintainer:         ritcheycarson@gmail.com
+build-type:         Simple
+
+common warnings
+    ghc-options: -Wall
+
+executable cwab
+    import:           warnings
+    main-is:          Main.hs
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+    build-depends:    base ^>=4.18.3.0
+    hs-source-dirs:   src
+    default-language: Haskell2010
