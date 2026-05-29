@@ -4,6 +4,7 @@ version:            0.1.0.0
 synopsis:           catson.wiki awesome backend
 homepage:           catson.wiki
 license:            MIT
+license-file:       LICENSE
 author:             catsonr
 maintainer:         ritcheycarson@gmail.com
 build-type:         Simple
@@ -16,6 +17,15 @@ executable cwab
     main-is:          Main.hs
     -- Modules included in this executable, other than Main.
     -- other-modules:
+    -- warp/scotty needs the threaded runtime; -N uses all cores
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
     build-depends:    base ^>=4.18.3.0
+                    , scotty
+                    , persistent
+                    , persistent-sqlite
+                    , aeson
+                    , text
+                    , time
+                    , monad-logger
     hs-source-dirs:   src
     default-language: Haskell2010
