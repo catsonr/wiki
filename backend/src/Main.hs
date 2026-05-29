@@ -22,7 +22,9 @@ import Database.Persist.Sqlite hiding (get, delete)
 import Database.Persist.TH
 import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (object, (.=))
+import Data.Text (Text, pack)
 import Data.Time (UTCTime, getCurrentTime)
+import System.Environment (lookupEnv)
 
 -- the typed schema. each new feature gets its own entity in this block.
 -- changing a field here = persistent handles the migration on next boot.
@@ -36,13 +38,15 @@ Hit
 
 main :: IO ()
 main = do
-    -- one sqlite file, a small connection pool, migrations run on startup
-    pool <- runStderrLoggingT $ createSqlitePool "cwab.db" 10
+    -- db path is configurable so prod can point at a mounted volume;
+    -- falls back to ./cwab.db for local dev.
+    dbPath <- maybe "cwab.db" pack <$> lookupEnv "CWAB_DB" :: IO Text
+    pool <- runStderrLoggingT $ createSqlitePool dbPath 10
     runSqlPool (runMigration migrateAll) pool
 
     scotty 3000 $ do
         get "/" $
-            text "cwab is alive\n"
+            text "cwab is alive"
 
         -- log a hit, return the running total.
         -- the Allow-Origin header lets catson.wiki's js read this cross-origin.

@@ -1,0 +1,31 @@
+services:
+  cwab:
+    container_name: cwab
+    build: .
+    image: cwab:latest
+    restart: unless-stopped
+    environment:
+      - CWAB_DB=/data/cwab.db
+    volumes:
+      - cwab-data:/data
+    ports:
+      - "3000:3000"
+    networks:
+      - cwabnetwork
+
+  tunnel:
+    container_name: cwab-cloudflared
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    networks:
+      - cwabnetwork
+
+networks:
+  cwabnetwork:
+    driver: bridge
+
+volumes:
+  cwab-data:
