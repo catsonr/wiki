@@ -63,6 +63,13 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <div id="userinfo"></div><br>
+        
+        <div>hits: <span id="hits">...</span></div><br>
+        <script>
+          fetch("https://api.catson.wiki/hit")
+            .then(r => r.json())
+            .then(d => { document.getElementById("hits").textContent = d.count })
+        </script>
 
         <div id='amongus'></div>
         <script src="/index/imgtoascii.js"></script>
