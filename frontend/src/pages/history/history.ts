@@ -14,6 +14,8 @@ const body: string = `<main>
     5.28.26 ~ hit counter added <br>
     
     6.5.26 ~ compiled catson.wiki <br>
+    
+    6.6.26 ~ hits counted for each page <br>
 
     <br><br>
 

@@ -21,7 +21,7 @@
 -- we can later reconstruct each visitor's path through the site keyed on `ip`.
 -- a page's count is NOT stored -- it's just how many Hit rows share that path,
 -- computed on demand (see countHits). recording and counting are split into two
--- endpoints by intent: POST /hit writes one row, GET /hitcount reads the count.
+-- endpoints by intent: POST /hit writes one row, GET /hit reads the count.
 module Hits
     ( Hit(..)
     , migrateHits
@@ -39,6 +39,7 @@ import Data.Time (UTCTime, getCurrentTime)
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text.Lazy as TL
+import Text.Read (readMaybe)
 
 -- the typed schema for this feature. mkMigrate emits 'migrateHits', which
 -- Main runs on boot to bring the sqlite table in line with these types.
@@ -46,7 +47,7 @@ import qualified Data.Text.Lazy as TL
 -- nullability is deliberate, not lazy: the text fields are non-null because a
 -- string always has a meaningful empty value ("" = "direct"/"none"), while
 -- lat/lng are the only Maybes because a Double has no honest empty (0,0 is a
--- real place in the gulf of guinea), so a missed geoip lookup must be Nothing.
+-- real place in the gulf of guinea), so a missing geoip value must be Nothing.
 share [mkPersist sqlSettings, mkMigrate "migrateHits"] [persistLowerCase|
 Hit
     time      UTCTime
@@ -55,19 +56,20 @@ Hit
     userAgent Text          -- the User-Agent header
     ip        Text          -- raw CF-Connecting-IP ("" only when no CF header, i.e. dev)
     country   Text          -- CF-IPCountry 2-letter code, free from cloudflare ("" if absent)
-    lat       Double Maybe  -- geoip (phase 2; Nothing for now)
-    lng       Double Maybe
+    lat       Double Maybe  -- CF-IPLatitude  (Nothing if header absent/unparseable)
+    lng       Double Maybe  -- CF-IPLongitude
     deriving Show
 |]
 
 -- record one hit: append it to the event log, and that's all. the count is a
 -- separate read now (countHits), so /hit is a pure write -- a single insert,
--- fire-and-forget. lat/lng (fine geo) is phase 2, so Nothing for both for now.
-recordHit :: ConnectionPool -> Text -> Text -> Text -> Text -> Text -> IO ()
-recordHit pool path referer userAgent ip country = do
+-- fire-and-forget. lat/lng are cloudflare's coarse coords (Nothing when absent),
+-- already parsed by the caller from the request headers.
+recordHit :: ConnectionPool -> Text -> Text -> Text -> Text -> Text -> Maybe Double -> Maybe Double -> IO ()
+recordHit pool path referer userAgent ip country lat lng = do
     now <- getCurrentTime
     runSqlPool
-        (insert_ (Hit now path referer userAgent ip country Nothing Nothing))
+        (insert_ (Hit now path referer userAgent ip country lat lng))
         pool
 
 -- how many human hits a path has: just count its rows in the log. a pure read,
@@ -82,9 +84,16 @@ countHits pool path = runSqlPool (count [HitPath ==. path]) pool
 hdr :: Maybe TL.Text -> Text
 hdr = maybe "" TL.toStrict
 
+-- cloudflare's CF-IPLatitude/CF-IPLongitude arrive as lazy-Text headers like
+-- "37.7749". parse to Maybe Double: header absent OR unparseable -> Nothing,
+-- which is exactly why lat/lng are the schema's only Maybes. these headers exist
+-- only once the "Add visitor location headers" managed transform is enabled.
+parseCoord :: Maybe TL.Text -> Maybe Double
+parseCoord mt = mt >>= readMaybe . TL.unpack
+
 -- two endpoints, split by intent (command vs query):
---   POST /hit       record a hit (write). the beacon fires this on every page.
---   GET  /hitcount  read a path's count (read). a page opts in to display it.
+--   POST /hit  record a hit (write). the beacon fires this on every page.
+--   GET  /hit  read a path's count (read). a page opts in to display it.
 -- both are CORS-open so catson.wiki's js can call them cross-origin, and both are
 -- "simple requests" (no custom headers, no non-simple body) so the browser sends
 -- them without a preflight -- which is why POST is free here, no OPTIONS needed.
@@ -99,11 +108,15 @@ hitRoutes pool = do
         mref    <- queryParamMaybe "ref"  :: ActionM (Maybe Text)
         ua      <- header "User-Agent"
         -- we're behind cloudflared, so the socket is the tunnel. cloudflare
-        -- injects the real visitor IP and a 2-letter country code as headers.
+        -- injects the real visitor IP + a 2-letter country code as headers, and
+        -- (with "Add visitor location headers" on) coarse lat/lng too.
         ip      <- header "CF-Connecting-IP"
         country <- header "CF-IPCountry"
+        lat     <- header "CF-IPLatitude"
+        lng     <- header "CF-IPLongitude"
         liftIO (recordHit pool (fromMaybe "" mpath) (fromMaybe "" mref)
-                                (hdr ua) (hdr ip) (hdr country))
+                                (hdr ua) (hdr ip) (hdr country)
+                                (parseCoord lat) (parseCoord lng))
         json $ object ["ok" .= True]
 
     get "/hit" $ do
