@@ -56,7 +56,7 @@ const body: string = `<main>
     
     <div>hits: <span id="hits">...</span></div><br>
     <script>
-      fetch("https://api.catson.wiki/hit")
+      fetch("https://api.catson.wiki/hit?path=/")
         .then(r => r.json())
         .then(d => { document.getElementById("hits").textContent = d.count })
     </script>

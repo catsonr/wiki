@@ -17,9 +17,11 @@
 -- this module owns everything hits-related: its schema, its migration,
 -- and its routes. Main just mounts what we export here.
 --
--- a Hit is one page request from a js-capable client. for now only
--- catson-sanctuary's index.html fires it; the plan is every page, so we can
--- later reconstruct each visitor's path through the site keyed on `ip`.
+-- a Hit is one page request from a js-capable client. every page fires it, so
+-- we can later reconstruct each visitor's path through the site keyed on `ip`.
+-- a page's count is NOT stored -- it's just how many Hit rows share that path,
+-- computed on demand (see countHits). recording and counting are split into two
+-- endpoints by intent: POST /hit writes one row, GET /hitcount reads the count.
 module Hits
     ( Hit(..)
     , migrateHits
@@ -58,27 +60,37 @@ Hit
     deriving Show
 |]
 
--- record one hit and hand back the running total.
--- split out from the route so it's reusable + testable without scotty.
--- takes the already-extracted, strict-Text fields; lat/lng (fine geo) is phase 2.
-recordHit :: ConnectionPool -> Text -> Text -> Text -> Text -> Text -> IO Int
+-- record one hit: append it to the event log, and that's all. the count is a
+-- separate read now (countHits), so /hit is a pure write -- a single insert,
+-- fire-and-forget. lat/lng (fine geo) is phase 2, so Nothing for both for now.
+recordHit :: ConnectionPool -> Text -> Text -> Text -> Text -> Text -> IO ()
 recordHit pool path referer userAgent ip country = do
     now <- getCurrentTime
     runSqlPool
-        (do _ <- insert (Hit now path referer userAgent ip country Nothing Nothing)
-            count ([] :: [Filter Hit]))
+        (insert_ (Hit now path referer userAgent ip country Nothing Nothing))
         pool
+
+-- how many human hits a path has: just count its rows in the log. a pure read,
+-- so with WAL it never blocks a writer. only called when a page opts in to
+-- *display* its count (rare), so recomputing on demand is cheap -- at this scale
+-- it's a sub-millisecond COUNT over a few thousand rows.
+countHits :: ConnectionPool -> Text -> IO Int
+countHits pool path = runSqlPool (count [HitPath ==. path]) pool
 
 -- scotty hands back LAZY Text from headers; persistent wants STRICT Text.
 -- this collapses "header absent" -> "" and converts in one step.
 hdr :: Maybe TL.Text -> Text
 hdr = maybe "" TL.toStrict
 
--- mount the /hit endpoint.
--- the Allow-Origin header lets catson.wiki's js read this cross-origin.
+-- two endpoints, split by intent (command vs query):
+--   POST /hit       record a hit (write). the beacon fires this on every page.
+--   GET  /hitcount  read a path's count (read). a page opts in to display it.
+-- both are CORS-open so catson.wiki's js can call them cross-origin, and both are
+-- "simple requests" (no custom headers, no non-simple body) so the browser sends
+-- them without a preflight -- which is why POST is free here, no OPTIONS needed.
 hitRoutes :: ConnectionPool -> ScottyM ()
-hitRoutes pool =
-    get "/hit" $ do
+hitRoutes pool = do
+    post "/hit" $ do
         setHeader "Access-Control-Allow-Origin" "*"
         -- path + the real inbound referer must come as explicit query params:
         -- the HTTP Referer header on a cross-origin fetch is catson's OWN
@@ -90,7 +102,12 @@ hitRoutes pool =
         -- injects the real visitor IP and a 2-letter country code as headers.
         ip      <- header "CF-Connecting-IP"
         country <- header "CF-IPCountry"
-        let path' = fromMaybe "" mpath
-            ref'  = fromMaybe "" mref
-        total <- liftIO (recordHit pool path' ref' (hdr ua) (hdr ip) (hdr country))
-        json $ object ["count" .= total]
+        liftIO (recordHit pool (fromMaybe "" mpath) (fromMaybe "" mref)
+                                (hdr ua) (hdr ip) (hdr country))
+        json $ object ["ok" .= True]
+
+    get "/hit" $ do
+        setHeader "Access-Control-Allow-Origin" "*"
+        mpath <- queryParamMaybe "path" :: ActionM (Maybe Text)
+        n     <- liftIO (countHits pool (fromMaybe "" mpath))
+        json $ object ["count" .= n]
