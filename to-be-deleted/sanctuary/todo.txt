@@ -1,3 +1,0 @@
-make imgtoascii work
-download all js loaded at runtime
-random page on refresh

@@ -4,11 +4,13 @@
   "description": "catson.wiki frontend",
   "license": "ISC",
   "type": "module",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist/",
+    "build": "tsx src/main.ts",
+    "check": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/node": "^22.19.20",
     "esbuild": "^0.28.0",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"

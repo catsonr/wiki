@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+import page from '../../page.ts'
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=2.0">
-  <title>Strange Attractors and You</title>
+// NOTE: String.raw so the inline LaTeX delimiters (\( ... \)) survive — a normal
+// template literal would eat the backslashes and katex would never render.
+const body: string = String.raw`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 
-  <link rel="stylesheet" type="text/css" href="./style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
-    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
-    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
-    crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
-    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-
-</head>
-
-<body>
-  <main>
+<main>
     Strange Attractors and You
 
 
@@ -62,7 +50,7 @@
       put simply, an attractor is a system that attracts points to certain positions in 2D space.
       in the example above, our point \(P\) is being attracted to the point (-infinity, -infinity), which is called <i>diverging.</i>
       since we randomly generated our example, there's an infinite number of other attractors! some of which <i>converge</i> to a single point or certain paths.
-      
+
       okay... but what makes them strange? well, 99% of the time an attractor will simply diverge to infinity, but the rest you will find act pretty strangely. that's really the only reason they're named that!
 
       <canvas id="canvas_ex2"></canvas>
@@ -71,13 +59,17 @@
       idk abt you, but i really find these beautiful. at least some of them. you can use the "generate new attractor" button if you're displeased
       <a target="_blank" href="./3d/index.html">add dimension</a>
     </p>
+</main>
+`
 
-    <script src="./attractor.js"></script>
-    <script src="./gl-matrix-min.js"></script>
-    <script src="./shader.js"></script>
-    <script src="./script.js"></script>
-
-  </main>
-</body>
-
-</html>
+export default () => page({
+  title: 'Strange Attractors and You',
+  body: body,
+  styles: ['./style.css'],
+  scripts: [
+    './attractor.js',
+    './gl-matrix-min.js',
+    './shader.js',
+    './script.js',
+  ],
+})
