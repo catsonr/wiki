@@ -54,7 +54,10 @@ const body: string = `<main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div id="userinfo"></div><br>
     
-    <div>hits: <span id="hits">...</span></div><br>
+    <div>
+      hits: <span id="hits">...</span>
+      <img src='/img/88x31/bw/dotdotdot.gif'>
+    </div><br>
     <script>
       fetch("https://api.catson.wiki/hit?path=/")
         .then(r => r.json())
