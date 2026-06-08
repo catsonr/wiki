@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 const body: string = `<main>
     <img src='/img/88x31/color/35mm.gif'>

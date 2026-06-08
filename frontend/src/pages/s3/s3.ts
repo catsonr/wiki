@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 const body: string = `<canvas id="s3canvas"></canvas>
 <br><br>

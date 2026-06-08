@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 const title: string = `i wanted a website so i wrote a compiler`
 

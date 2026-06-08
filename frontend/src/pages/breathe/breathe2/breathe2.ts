@@ -1,4 +1,4 @@
-import page from '../../../page.ts'
+import page from '@/page.ts'
 
 const body: string = `<canvas id="shadercanvas">HTML5 canvas not supported :(</canvas>
     <div id="runtime">

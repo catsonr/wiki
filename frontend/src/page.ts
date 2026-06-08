@@ -1,4 +1,4 @@
-import { API_BASE } from "./config.ts"
+import { API_BASE } from "@/config.ts"
 
 export type Page = {
     title: string
@@ -18,9 +18,10 @@ const HIT =
     '</script>'
 
 // returns the Page, as a static HTML webpage
+// <!DOCTYPE html> in config.HTML_HEADER
 export default function(page: Page): string
 {
-    return `<!DOCTYPE html>
+    return `
 <html>
     <head>
         <meta charset="UTF-8">
@@ -33,7 +34,7 @@ export default function(page: Page): string
 
     <body>
         ${page.body}
-        <!-- ${HIT} -->
+        ${HIT}
         ${scripts_to_string( page.scripts ?? [] )}
     </body>
 </html>`

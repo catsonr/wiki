@@ -2,7 +2,7 @@ import { writeFile, mkdir, cp, readdir } from "node:fs/promises"
 import { dirname } from "node:path"
 import { build } from "esbuild"
 
-import { PAGE_ROOT, BUILD_DIR, HTML_HEADER } from "./config.ts"
+import { PAGE_ROOT, BUILD_DIR, HTML_HEADER } from "@/config.ts"
 
 const pagesUrl = new URL(PAGE_ROOT, import.meta.url)
 

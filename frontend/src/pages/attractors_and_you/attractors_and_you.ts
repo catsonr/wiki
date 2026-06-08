@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 // NOTE: String.raw so the inline LaTeX delimiters (\( ... \)) survive — a normal
 // template literal would eat the backslashes and katex would never render.

@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 const body: string = `<main></main>`
 

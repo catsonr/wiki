@@ -1,4 +1,4 @@
-import page from '../../page.ts'
+import page from '@/page.ts'
 
 // emscripten boilerplate (the Module setup script + its styles) lives in colocated
 // files copied verbatim — keeps the regex/backslash-heavy loader out of a template literal.
