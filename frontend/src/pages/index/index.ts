@@ -80,4 +80,4 @@ const body: string = `<main>
 <script src="/index/cube.js"></script>
 `
 
-export default () => page({ title: 'catson wiki', body: body, styles: ['/index/style.css'] })
+export default () => page({ title: 'catson wiki', body: body, scripts: ['/scripts/attention.js'], styles: ['/index/style.css'] })

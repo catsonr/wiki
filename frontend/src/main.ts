@@ -39,20 +39,27 @@ async function main() {
     console.log("built", out)
   }
 
-  /*
-  // 4. bundle the client-side shader-gallery engine (src/gallery/) into one script.
-  // it lives OUTSIDE pages/ on purpose: it isn't a page module, it's browser code.
-  // iife so the page can load it with a plain <script src> (no type=module).
-  await build({
-    entryPoints: ["src/gallery/main.ts"],
-    bundle: true,
-    format: "iife",
-    target: "es2020",
-    minify: true,
-    outfile: BUILD_DIR + "shaders/gallery.js",
-  })
-  console.log("built", BUILD_DIR + "shaders/gallery.js")
-  */
+  // 4. bundle every browser-script in src/scripts/ -> dist/scripts/<name>.js.
+  // these live OUTSIDE pages/ because they aren't pages: they're standalone
+  // client code a page opts into via Page.scripts (or page.ts's globals, e.g. hit).
+  // bundle + iife so a plain <script src> works (no type=module) AND imports like
+  // @/config.ts get inlined -- that's how hit.ts shares the one real API url.
+  const scriptsUrl = new URL("./scripts/", import.meta.url)
+  const scriptEntries = (await readdir(scriptsUrl))
+    .filter((f) => f.endsWith(".ts"))
+    .map((f) => `src/scripts/${f}`)
+
+  if (scriptEntries.length) {
+    await build({
+      entryPoints: scriptEntries,
+      bundle: true,
+      format: "iife",
+      target: "es2020",
+      minify: true,
+      outdir: BUILD_DIR + "scripts",
+    })
+    for (const e of scriptEntries) console.log("bundled", e)
+  }
 }
 
 main()

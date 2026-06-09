@@ -1,5 +1,3 @@
-import { API} from "@/config.ts"
-
 export type Page = {
     title: string
     body: string
@@ -8,14 +6,10 @@ export type Page = {
     scripts?: string[]
 }
 
+const GLOBAL_SCRIPTS: string[] = ['/scripts/hit.js']
+
 const scripts_to_string = (scripts: string[]) => scripts.map(src => `<script src="${src}"></script>`).join('\n')
 const styles_to_string  = (styles: string[])  => styles.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')
-
-const HIT =
-    '<script>' +
-    `fetch("${API}hit?path=" + encodeURIComponent(location.pathname)` +
-    ' + "&ref=" + encodeURIComponent(document.referrer), { method: "POST" })' +
-    '</script>'
 
 // returns the Page, as a static HTML webpage
 // <!DOCTYPE html> in config.HTML_HEADER
@@ -34,7 +28,7 @@ export default function(page: Page): string
 
     <body>
         ${page.body}
-        <!-- ${HIT} -->
+        ${scripts_to_string( GLOBAL_SCRIPTS )}
         ${scripts_to_string( page.scripts ?? [] )}
     </body>
 </html>`
