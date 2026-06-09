@@ -1,4 +1,4 @@
-import { API_BASE } from "@/config.ts"
+import { API} from "@/config.ts"
 
 export type Page = {
     title: string
@@ -13,7 +13,7 @@ const styles_to_string  = (styles: string[])  => styles.map(href => `<link rel="
 
 const HIT =
     '<script>' +
-    `fetch("${API_BASE}/hit?path=" + encodeURIComponent(location.pathname)` +
+    `fetch("${API}hit?path=" + encodeURIComponent(location.pathname)` +
     ' + "&ref=" + encodeURIComponent(document.referrer), { method: "POST" })' +
     '</script>'
 
@@ -34,7 +34,7 @@ export default function(page: Page): string
 
     <body>
         ${page.body}
-        ${HIT}
+        <!-- ${HIT} -->
         ${scripts_to_string( page.scripts ?? [] )}
     </body>
 </html>`

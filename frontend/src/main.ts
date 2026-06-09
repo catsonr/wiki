@@ -35,7 +35,7 @@ async function main() {
     const out = BUILD_DIR + outFor(rel)
 
     await mkdir(dirname(out), { recursive: true })
-    await writeFile(out, HTML_HEADER + render()) // mega simple header
+    await writeFile(out, `<!DOCTYPE html>\n` + HTML_HEADER + render()) // mega simple header
     console.log("built", out)
   }
 

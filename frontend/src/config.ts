@@ -1,10 +1,9 @@
+/* directory constants end with forward-slash */
 export const PAGE_ROOT: string = "./pages/" // relative to src/
 export const BUILD_DIR: string = "./dist/"  // relative to frontend/
+export const API: string = "https://api.catson.wiki/"
 
-export const API_BASE: string = "https://api.catson.wiki"
-
-export const HTML_HEADER: string = `<!DOCTYPE html>
-<!--                                ~~~ https://catson.wiki/ ~~~                -->
+export const HTML_HEADER: string = `<!--                                ~~~ https://catson.wiki/ ~~~                -->
 <!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀-->
 <!--⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀-->
 <!--⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠙⢿⣦⠀⠀⠀⠀⠀⠀-->
