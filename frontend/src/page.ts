@@ -12,11 +12,12 @@ const scripts_to_string = (scripts: string[]) => scripts.map(src => `<script src
 const styles_to_string  = (styles: string[])  => styles.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')
 
 // returns the Page, as a static HTML webpage
-// <!DOCTYPE html> in config.HTML_HEADER
+// <!DOCTYPE html> prepended in main.ts
 export default function(page: Page): string
 {
     return `
 <html>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,8 +28,16 @@ export default function(page: Page): string
     </head>
 
     <body>
+        <!-- body -->
+
         ${page.body}
+
+        <!-- global scipts -->
+        
         ${scripts_to_string( GLOBAL_SCRIPTS )}
+        
+        <!-- applied scripts (if any) -->
+
         ${scripts_to_string( page.scripts ?? [] )}
     </body>
 </html>`

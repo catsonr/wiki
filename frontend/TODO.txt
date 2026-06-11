@@ -1,0 +1,16 @@
+<things todo>
+
+    <need todo>
+        download non-local assets, namely: 
+            kaytex css+js (attractors and you),
+            p5 (!!),
+
+
+    </need todo>
+
+    <want todo>
+        make 'i wish it was 2001!' button go to the wikipedia article of 2001 in 2001,
+        put a WR!! sign pointint to 88x31, once it's upgraded,
+    </want todo>
+
+</things todo>

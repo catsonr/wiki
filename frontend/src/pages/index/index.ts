@@ -2,8 +2,13 @@ import page from '@/page.ts'
 
 const body: string = `<main>
     welcome to my little site :$<br><br>
+    
+    <!-- browser info -->
+    <!-- (filled by script.js) -->
 
     <div id="browserinfo"></div><br>
+
+    <!-- 88x31 buttons -->
 
     <a href='/breathe/index.html'>
         <img src='/img/88x31/bw/jamiroquai.gif'>
@@ -41,6 +46,8 @@ const body: string = `<main>
         <img src='/img/88x31/bw/blank.gif'>
     </a>
 
+    <!-- the cats at the bottom of your screen -->
+
     <div class="bottomcats">
       <img src="/img/cat life.gif">
       <img src="/img/cat life.gif">
@@ -48,12 +55,17 @@ const body: string = `<main>
       <img src="/img/cat life.gif">
     </div>
 
+    <!-- user information from ipapi -->
+
     <script src="/lib/platform.js"></script>
     <script src="/index/script.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div id="userinfo"></div><br>
     
+    <!-- hits display -->
+    <!-- sends GET to http://api.catson.wiki/hit, which returns the current hit count -->
+    <!-- POST http://api.catson.wiki/hit increments the counter, and is injected at compile time via script hit.ts -->
+    <!-- note that this endpoint does zero validation. so if you wanna spam it for some reason, be my guest i guess! -->
     <div>
       hits: <span id="hits">...</span>
       <img src='/img/88x31/bw/dotdotdot.gif'>
@@ -64,20 +76,31 @@ const body: string = `<main>
         .then(d => { document.getElementById("hits").textContent = d.count })
     </script>
 
+    <!-- the pseudo-ranom characters -->
+    <!-- (using poor naming scheme) -->
     <div id='amongus'></div>
     <script src="/index/imgtoascii.js"></script>
+    
+    <!-- note that here, at end of div.innerText, script.js appends information about the user's ip -->
+    <!-- from https://ipapi.co/json, and they do not always respond -->
 
 </main>
 
+<!-- lorenz attractor background animation (using p5!) -->
 <div id="lorenzContainer"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.js"></script>
 <script src="/index/lorenz.js"></script>
 
+<!-- a cube i made just for you -->
 <a id="cubecanvas-link" href='/s3/index.html'>
   <canvas id="cubecanvas"></canvas>
 </a>
 <script src="/lib/gl-matrix-min.js"></script>
 <script src="/index/cube.js"></script>
+
+<!-- i realize now that people will read my source code, so, here's all of it! -->
+<!-- https://github.com/catsonr/wiki/ -->
+<!-- im typing typescript btw -->
 `
 
 export default () => page({ title: 'catson wiki', body: body, scripts: ['/scripts/attention.js'], styles: ['/index/style.css'] })
