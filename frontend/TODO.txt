@@ -1,6 +1,7 @@
 <things todo>
 
     <need todo>
+	not minify js
         download non-local assets, namely: 
             kaytex css+js (attractors and you),
             p5 (!!),

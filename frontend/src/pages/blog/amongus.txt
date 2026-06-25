@@ -1,0 +1,47 @@
+# the infinite among us pattern that stole 7 months of my life
+
+= introduction
+tiling (aka tessellation) is a topic that has absolutely enchanted me, and
+if youre as big a fan of both math and art as i am, then maybe you'll be
+enchanted too. we humans for all of history have covered our walls, our
+streets, and our places of worship with tiles, and it is modern mathematics
+that allows ameteurs like me to play around with and discover new, novel
+tilings.
+
+in fact, the tiling of today's focus, what i have dubbed *the among us tiling*,
+seems to have been discovered independently by several ameteurs since the
+popularization of among us in late 2020. 
+
+the among us tiling has been a great vehicle for bettering my own mathematical
+abilities. since, in general, i aim to solve the following question:
+
+"for a pixel rendering of the among us tiling, how can you determine the
+color of any given pixel (i, j)?"
+
+= procedural generation
+the first thing you may notice about the among us tiling is that it is
+entirely composed of [ (pronounced 'crew'), where half are right side up and
+the rest are ] (pronounced 'mate'). moreover, each [ has a corresponding ]
+joined at the legs. with this we can instead treat both tiles together as a
+single *translational unit*. { some diagram showing [, ], and translational unit }
+
+{find basis for translation and define a procedure, optionally write a program}
+
+== note
+this algorithm is incredibly simple (and works for *any* repeating pattern!) but
+it is not what i am after. recall the question we are trying to answer: *what is
+the color of the among us tiling at any given pixel?*
+
+{my motivation is shaders. if we study the tiling and come up with mathematical
+definitions for it, then we can write it symbolically in GLSL. and amongus shader
+is written}
+
+= mathematical definiton
+{need some Color amongus(vec2 uv) {}
+ except according to intro-tiling-theory we can use characteristic function and
+ an additional color permutation function to literally define the among us tiling,
+ since it does belong to some symmetry group, and seems to be isohedral
+}
+
+= shader implementation
+{tbd lol}

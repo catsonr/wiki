@@ -6,7 +6,7 @@ export type Page = {
     scripts?: string[]
 }
 
-const GLOBAL_SCRIPTS: string[] = ['/scripts/hit.js']
+const GLOBAL_SCRIPTS: string[] = [] // ['/scripts/hit.js']
 
 const scripts_to_string = (scripts: string[]) => scripts.map(src => `<script src="${src}"></script>`).join('\n')
 const styles_to_string  = (styles: string[])  => styles.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')
