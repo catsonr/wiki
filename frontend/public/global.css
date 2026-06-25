@@ -1,0 +1,24 @@
+/* site-wide defaults, linked into every page's <head> by page.ts (before any
+   per-page styles, so a page can still override). currently: the one real font. */
+
+/* JetBrains Mono, shipped as a variable font (one file spans weights 100..800).
+   the matching italic axis lives in its own file. */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/font/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/font/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+html,
+body {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}

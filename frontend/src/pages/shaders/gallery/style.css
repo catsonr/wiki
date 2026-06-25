@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  background: #0d0d0f;
+  color: #e8e8ea;
+  font-family: monospace;
+}
+
+.shaders-main {
+  padding: 24px;
+}
+
+.shaders-main h1 {
+  margin: 0 0 4px;
+  font-weight: normal;
+  letter-spacing: 0.15em;
+}
+
+.shaders-blurb {
+  margin: 0 0 20px;
+  opacity: 0.6;
+}
+
+/* the gallery: canvas + overlay stacked in one positioned box */
+#gallery {
+  position: relative;
+  width: 100%;
+}
+
+.gallery-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* one tile per shader, sitting exactly over its slice of the canvas.
+   transparent so the shader shows through; the border + caption are the chrome. */
+.tile {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.tile:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 6px 20px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.tile.selected {
+  border-color: #8ad;
+  box-shadow: 0 0 0 2px #8ad;
+  z-index: 3;
+}
+
+.tile-caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 100%;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile:hover .tile-caption {
+  opacity: 1;
+}
+
+/* a shader that failed to fetch/compile/link: dead, but labelled (hover for why) */
+.tile.broken {
+  border-color: rgba(255, 80, 80, 0.4);
+  background: repeating-linear-gradient(
+    45deg, #1a1012, #1a1012 8px, #140c0e 8px, #140c0e 16px
+  );
+  cursor: help;
+}
+
+.tile.broken .tile-caption {
+  opacity: 1;
+  color: #f99;
+}

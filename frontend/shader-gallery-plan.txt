@@ -1,0 +1,15 @@
+requirements:
+- use jetbrains mono
+- iMouse gets bound to [0, 1]^2 when the mouse is outside a given shader, and
+  should stay at the last value before the mouse left
+
+- each page has it's corresponding shader/gallery/{filename}.frag that takes the
+  entire screen
+
+niceties:
+- pressing up/down goes to next or previous shader in each gallery/{filename}
+- shader name in top right coner (glowing and moving? letter.height += sin(t + letter.index))
+- some dynamacism... zooming (scaling all shaders)? maybe even some world-space?
+
+long term:
+likes/dislikes on shaders. sort by most liked

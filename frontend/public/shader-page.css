@@ -1,0 +1,52 @@
+/* the full-screen single-shader page. the whole job here is: shader fills the
+   viewport, nothing scrolls, ever. lives in public/ so the absolute path is stable
+   for the generated pages (which sit at /shaders/gallery/<name>/). */
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden; /* no scrollbar can appear */
+  background: #000;
+}
+
+/* display:block kills the inline-canvas baseline gap (the classic ~4px that would
+   otherwise push a scrollbar into existence). exact viewport sizing does the rest. */
+#shader {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* the shader's name, top-right. doubles as the way back to the wall.
+   difference blend keeps it legible over whatever the shader is doing. */
+.shader-name {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 2;
+  color: #fff;
+  mix-blend-mode: difference;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+.shader-name:hover {
+  opacity: 1;
+}
+
+/* a dead shader: the compile/fetch error, full-screen, instead of a black void. */
+.shader-error {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 24px;
+  overflow: auto;
+  color: #f99;
+  background: #140c0e;
+  font: 13px/1.5 "JetBrains Mono", ui-monospace, monospace;
+  white-space: pre-wrap;
+}

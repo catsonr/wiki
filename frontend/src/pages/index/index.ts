@@ -89,7 +89,7 @@ const body: string = `<main>
 <!-- lorenz attractor background animation (using p5!) -->
 <div id="lorenzContainer"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.js"></script>
-<script src="/index/lorenz.js"></script>
+<script src="/index/lorenz-optimized.js"></script>
 
 <!-- a cube i made just for you -->
 <a id="cubecanvas-link" href='/s3/index.html'>
@@ -103,4 +103,6 @@ const body: string = `<main>
 <!-- im typing typescript btw -->
 `
 
-export default () => page({ title: 'catson wiki', body: body, scripts: ['/scripts/attention.js'], styles: ['/index/style.css'] })
+// attention.js nags first-time visitors; shader-ad.js is the returning-visitor
+// treat once they've graduated. the two self-gate on attention:seen (mutually exclusive).
+export default () => page({ title: 'catson wiki', body: body, scripts: ['/scripts/attention.js', '/scripts/shader-ad.js'], styles: ['/index/style.css'] })
