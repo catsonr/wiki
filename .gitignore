@@ -7,3 +7,6 @@ dist/
 dist-newstyle/
 cwab.db*
 .env
+
+# button gallery build input: generated data transferred from the crawler, never committed
+frontend/data/88x31-gallery-manifest.json

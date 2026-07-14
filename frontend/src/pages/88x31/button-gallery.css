@@ -1,0 +1,72 @@
+/* shared stylesheet for the 1,000 button gallery pages (/88x31/pages/NNNN.html).
+   the central field is the buttons themselves at native 88x31 -- no cards, no
+   borders, no upscaling. header/footer/hover-window stay in the site's plain
+   monochrome monospace language. */
+
+.gallery-header,
+.gallery-nav {
+  text-align: center;
+  margin: 1rem 0.5rem;
+}
+
+/* a dense wrapping field of native-size buttons, centered in the viewport.
+   the small fixed gap keeps adjacent buttons distinct without card-ifying. */
+.gallery-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto;
+  padding: 0 4px;
+}
+
+.gallery-button {
+  margin: 0;
+}
+
+.gallery-button-link {
+  display: block;
+  line-height: 0; /* the image is the whole visible area */
+}
+
+.gallery-button img {
+  display: block;
+  width: 88px;
+  height: 31px;
+}
+
+/* screen-reader-accessible clipping for the factual captions */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* the one floating metadata window; populated + positioned by the shared
+   script, informational only -- it must never catch the pointer. */
+#button-gallery-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  pointer-events: none;
+  max-width: min(24rem, calc(100vw - 16px));
+  padding: 0.4rem 0.6rem;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere; /* witnessed filenames can be arbitrarily long */
+}
+
+#button-gallery-window[hidden] {
+  display: none;
+}

@@ -5,6 +5,7 @@ import { build } from "esbuild"
 import { PAGE_ROOT, BUILD_DIR, HTML_HEADER } from "@/config.ts"
 import page from "@/page.ts"
 import { MANIFEST } from "@/gallery/manifest.ts"
+import { buildButtonGallery } from "@/button-gallery/build.ts"
 
 const pagesUrl = new URL(PAGE_ROOT, import.meta.url)
 
@@ -71,7 +72,12 @@ async function main() {
   }
   console.log(`built ${MANIFEST.length} shader pages under /${GALLERY}`)
 
-  // 5. bundle every browser-script in src/scripts/ -> dist/scripts/<name>.js.
+  // 5. the 88x31 button gallery: 1,000 flat pages (0001..1000) of 100 archived
+  // buttons each, compiled from the crawler's manifest artifact in data/.
+  // the manifest is build input, not source -- absent or invalid, the build fails.
+  await buildButtonGallery(BUILD_DIR)
+
+  // 6. bundle every browser-script in src/scripts/ -> dist/scripts/<name>.js.
   // these live OUTSIDE pages/ because they aren't pages: they're standalone
   // client code a page opts into via Page.scripts (or page.ts's globals, e.g. hit).
   // bundle + iife so a plain <script src> works (no type=module) AND imports like
