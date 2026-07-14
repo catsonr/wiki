@@ -1,0 +1,54 @@
+/* the two decorative button marquees on the 88x31 landing page. motion is pure
+   css; button-marquee.js only fills the tracks from two random gallery pages.
+   each track holds its 100 buttons twice, so translateX(-50%) loops seamlessly. */
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  margin: 0.75rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 230s linear infinite; /* one slow drift */
+}
+
+/* top bar drifts left-to-right, bottom bar right-to-left */
+#marquee-top .marquee-track {
+  animation-direction: reverse;
+}
+
+/* the bottom bar is pinned to the bottom of the viewport. the button strip is a
+   solid 31px band, so it needs no backing; body just reserves matching bottom
+   padding so page content is never hidden behind it. */
+#marquee-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0.75rem 0;
+}
+
+body {
+  padding-bottom: 3rem;
+}
+
+/* each button carries its own trailing gap, so every cell is a uniform 92px
+   and the -50% wrap lands exactly on a button boundary */
+.marquee-track img {
+  display: block;
+  flex: none;
+  width: 88px;
+  height: 31px;
+  margin-right: 4px;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
