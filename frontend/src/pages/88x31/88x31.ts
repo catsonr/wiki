@@ -1,31 +1,19 @@
 import page from '@/page.ts'
 
-// the wall: 1000 ranked 88x31 buttons, GPU-tiled on a pannable/zoomable plane.
-// canvas fills the viewport; app.js loads the atlas + manifest and drives gl.js.
 const body: string = `
-<canvas id="wall"></canvas>
+<h1>88x31 button gallery</h1>
+a while ago i built a web scraper in haskell that grabs all the 88x31 buttons
+across both neocities and nekoweb. it has been running since mid june of 2026
+and reached 100k unique button sightings in july. i intend on making a browsable
+archive of <i>all</i> 100,000+ buttons, but for now i hope the little sample i
+prepared can satiate your hunger until the full gallery is ready
+<br><br>
 
-<div id="hl"></div>
+the following link will take you to a paginated view of the first 10,000 buttons
+sorted by number of occurances. there are 100 pages, each with 100 buttons
+<br><br>
 
-<div id="panel">
-  <div class="title">88<span>×</span>31 · the wall</div>
-  <label>columns <span id="ctl-C-val">40</span>
-    <input id="ctl-C" type="range" min="8" max="80" step="1" value="40">
-  </label>
-  <label>gap x <span id="ctl-gx-val">6</span>
-    <input id="ctl-gx" type="range" min="0" max="40" step="1" value="6">
-  </label>
-  <label>gap y <span id="ctl-gy-val">6</span>
-    <input id="ctl-gy" type="range" min="0" max="40" step="1" value="6">
-  </label>
-  <button id="ctl-reset">frame all</button>
-  <div class="hint">drag to pan · scroll to zoom</div>
-  <a class="back" href="/index.html"><img src="/img/88x31/buttons/back.gif"></a>
-</div>
-
-<div id="hud"></div>
-
-<script type="module" src="/88x31/app.js"></script>
+<a>enjoy!</a>
 `
 
-export default () => page({ title: '88x31 · 1000', body, styles: ['/88x31/style.css'] })
+export default () => page({ title: '88x31 buttons', body, })
