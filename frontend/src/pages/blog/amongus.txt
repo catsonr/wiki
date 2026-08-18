@@ -1,15 +1,15 @@
-# the infinite among us pattern that stole 7 months of my life
+# the infinite among us pattern that stole 8 months of my life
 
 = introduction
-tiling (aka tessellation) is a topic that has absolutely enchanted me, and
-if youre as big a fan of both math and art as i am, then maybe you'll be
-enchanted too. we humans for all of history have covered our walls, our
-streets, and our places of worship with tiles, and it is modern mathematics
-that allows ameteurs like me to play around with and discover new, novel
-tilings.
+tiling (https://en.wikipedia.org/wiki/Tessellation) is a topic that has
+absolutely enchanted me, and if youre as big a fan of both math and art as i
+am, then maybe you'll be enchanted too. we humans for all of history have
+covered our walls, our streets, and our places of worship with tiles, and it is
+modern mathematics that allows hobbiests like me to play around with and
+discover new, novel tilings.
 
 in fact, the tiling of today's focus, what i have dubbed *the among us tiling*,
-seems to have been discovered independently by several ameteurs since the
+seems to have been discovered independently by several hobbiests since the
 popularization of among us in late 2020. 
 
 the among us tiling has been a great vehicle for bettering my own mathematical
@@ -24,24 +24,43 @@ entirely composed of [ (pronounced 'crew'), where half are right side up and
 the rest are ] (pronounced 'mate'). moreover, each [ has a corresponding ]
 joined at the legs. with this we can instead treat both tiles together as a
 single *translational unit*. { some diagram showing [, ], and translational unit }
+lets refer to the translational unit, the union of [ and ], as a "crewmate."
 
-{find basis for translation and define a procedure, optionally write a program}
+== an algorithm
+
+take a crewmate. now place another one atop it so that the first crewmate's [
+touches the ] of the other crewmate. repeating this will form infitite strips,
+and those strips can be placed snugly next to one another. congratuations, you
+just tiled the plane!
+
+this algorithm is so simple that it can be verified mentally just by looking at
+a picture of the among us tiling. { see also conway criterion }
 
 == note
-this algorithm is incredibly simple (and works for *any* repeating pattern!) but
-it is not what i am after. recall the question we are trying to answer: *what is
-the color of the among us tiling at any given pixel?*
+this algorithm is incredibly simple, and i feel it would be fairly easy to
+implement as a computer program, but unfortunately it is not what i am after.
+recall the question we are trying to answer: *how can
+you determine the color of any given pixel (i, j) of the among us tiling?*
+
+it's a subtle difference, but requires a much different approach than our
+procedural algorithm from earlier. rather than starting with [, rotating a copy
+for ], joining them together to form a crewmate, joining those into strips, and
+joining those strips into a completely tiling, i instead want a *function*. if
+you were writing this function in a C-like language you could imagine a function
+signature like:
+
+`Color amongUsTiling(int x, int y);`
+
+which takes in a pixel coordinate and returns a color, exactly what i am after!
+
+... but why? why introduce this pointless mathematical abstraction when we already
+have a perfectly working and admittedly quite elegant procedural algorithm?
 
 {my motivation is shaders. if we study the tiling and come up with mathematical
 definitions for it, then we can write it symbolically in GLSL. and amongus shader
 is written}
 
 = mathematical definiton
-{need some Color amongus(vec2 uv) {}
- except according to intro-tiling-theory we can use characteristic function and
- an additional color permutation function to literally define the among us tiling,
- since it does belong to some symmetry group, and seems to be isohedral
-}
 
 = shader implementation
-{tbd lol}
+{ see shadertoy post :) }
