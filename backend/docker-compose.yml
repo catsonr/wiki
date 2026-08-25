@@ -9,7 +9,10 @@ services:
     volumes:
       - cwab-data:/data
     ports:
-      - "3000:3000"
+      # backend uses port 3000, but docker will actually expose 3333
+      # ngl this was a quick and easy fix since i needed port 3000 for
+      # something more important
+      - "3333:3000"
     networks:
       - cwabnetwork
 
