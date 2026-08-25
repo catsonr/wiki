@@ -1,0 +1,88 @@
+/* /hello -- an informal-resume page: black prose on the white that the (left-biased)
+   dna shader paints. colocated with the page, so it's copied verbatim to /hello/. */
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #fff; /* fallback: if the shader never draws, the page is still b/w & readable */
+  color: #000;
+}
+
+/* the shader, pinned to the viewport behind the prose. inset:0 stretches it to all
+   four edges of the fixed containing block (the viewport) -- no 100vw/100vh needed,
+   and none of their scrollbar / mobile quirks. it sits at z-index:0 (NOT -1: a
+   negative layer hides behind the body background and never shows); the prose is
+   lifted above it. pointer-events:none keeps it pure scenery. */
+#hello-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block; /* kill the inline-canvas baseline gap */
+  pointer-events: none;
+}
+
+/* the prose column: centered in the viewport, sitting on the shader's white, lifted
+   above the canvas. the column is centered; the text inside stays left-aligned, which
+   reads far better for multi-line prose -- add text-align:center here for centered text. */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 60ch;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 5rem;
+  line-height: 1.7;
+  /* backing for the text column. invisible on desktop (it's the same pure white the
+     shader already paints here), but on a narrow phone viewport -- where the centered
+     column can slide over the shader's black LHS -- it keeps the prose on white. no
+     border/shadow/radius on purpose: those would make it show on desktop too. */
+  background: #fff;
+}
+
+h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem; /* tight, so .note sits under it as a subtitle */
+}
+
+/* small grey subtitle under the name. rgba(0,0,0,0.35) == the same 35%-black the
+   "# " heading prefix renders as over the white panel. */
+.note {
+  margin: 0 0 2rem;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.35);
+}
+
+/* section headers echo the markdown source ("# about"): a muted hash, programmer-y.
+   drop the ::before rule if you'd rather they read as plain words. */
+h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 2.75rem 0 0.85rem;
+}
+h2::before {
+  content: "# ";
+  opacity: 0.35;
+}
+
+p {
+  margin: 0 0 1.15rem;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover {
+  text-decoration: none;
+}
+
+/* the email, monospaced already -- a faint chip just marks it as a literal to copy. */
+code {
+  font-size: 0.95em;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}

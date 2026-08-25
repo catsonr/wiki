@@ -1,0 +1,31 @@
+hello, im carson
+
+# about
+
+i'm a 23 y/o graphics programmer from Texas, currently studying at Texas A&M RELLIS.
+
+i'm working on [BEATBOXX](https://beatboxx.org/), my free and open-source rhythm game.
+i use [chromaprint](https://github.com/acoustid/chromaprint) to identify user
+supplied audio files to circumvent the common legal grey area of most community-driven
+rhythm games. written in c++ using custom GDExtension plugins for the godot engine.
+
+i'm also currently working as a software engineering intern at [All Sober](https://allsober.com/),
+an exciting healthcare startup. i'm building a patient-facing mobile app that helps
+keep patients on track with their recovery. it interfaces with our in-house
+Electronic Medical Record system.
+
+i have also fallen in love with shaders. here is a link to my [shadertoy profile](https://www.shadertoy.com/user/catson),
+which i like to treat like an art gallery. i love shadertoy, as it lets me collaborate
+with some very very smart graphics people!
+
+i enjoy work where i get to touch all layers of the stack: from dependable, low-level
+systems, to beautiful and interactive user-facing software.
+
+# contact
+
+if i sound like someone you want working on your project, the best way to contact
+me is through email: `ritcheycarson@gmail.com`
+
+# resume
+
+and for those interested, here is my [resume](TBD)
